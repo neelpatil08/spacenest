@@ -143,9 +143,9 @@ const startServer = async () => {
 
     console.log("MongoDB Connected ✅");
 
-    app.listen(5000, () => {
-      console.log("Server running on http://localhost:5000 🚀");
-    });
+   app.listen(process.env.PORT || 5000, () => {
+  console.log(`Server running on port ${process.env.PORT || 5000}`);
+});
 
   } catch (err) {
     console.log("Mongo Error ❌", err);
