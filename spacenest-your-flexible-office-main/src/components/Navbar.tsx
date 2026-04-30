@@ -7,7 +7,9 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [darkMode, setDarkMode] = useState(false); // ✅ NEW
 
+  // 🔥 USER LOAD
   useEffect(() => {
     const loadUser = () => {
       const storedUser = localStorage.getItem("user");
@@ -24,10 +26,7 @@ const Navbar = () => {
       }
     };
 
-    // run once
     loadUser();
-
-    // 🔥 listen for login/signup updates
     window.addEventListener("userChanged", loadUser);
 
     return () => {
@@ -35,18 +34,39 @@ const Navbar = () => {
     };
   }, []);
 
+  // 🌙 DARK MODE INIT
+  useEffect(() => {
+    const theme = localStorage.getItem("theme");
+
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+      setDarkMode(true);
+    }
+  }, []);
+
+  // 🌙 TOGGLE FUNCTION
+  const toggleTheme = () => {
+    if (darkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+
+    setDarkMode(!darkMode);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
 
-    // 🔥 notify app
     window.dispatchEvent(new Event("userChanged"));
-
     navigate("/login");
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-md border-b border-border/40">
       <div className="container flex items-center justify-between h-16">
 
         {/* Logo */}
@@ -60,6 +80,14 @@ const Navbar = () => {
           <Link to="/spaces" className="text-sm">Browse Spaces</Link>
           <Link to="/" className="text-sm">How It Works</Link>
           <Link to="/" className="text-sm">Pricing</Link>
+
+          {/* 🌙 DARK MODE BUTTON */}
+          <button
+            onClick={toggleTheme}
+            className="px-3 py-1 rounded-lg bg-gray-200 dark:bg-gray-700"
+          >
+            {darkMode ? "☀️" : "🌙"}
+          </button>
 
           {/* 🔥 AUTH UI */}
           {user ? (
@@ -99,6 +127,14 @@ const Navbar = () => {
           <Link to="/spaces" onClick={() => setMobileOpen(false)}>
             Browse Spaces
           </Link>
+
+          {/* 🌙 DARK MODE MOBILE */}
+          <button
+            onClick={toggleTheme}
+            className="w-full px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700"
+          >
+            {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+          </button>
 
           <div className="flex gap-3 pt-2">
 

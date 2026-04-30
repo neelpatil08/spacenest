@@ -156,3 +156,35 @@ const startServer = async () => {
 };
 
 startServer();
+// ===== BOOKING SCHEMA =====
+const bookingSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  date: String,
+  slot: String,
+});
+
+const Booking = mongoose.model("Booking", bookingSchema);
+
+// ===== BOOKING ROUTE =====
+app.post("/booking", async (req, res) => {
+  try {
+    const { name, email, date, slot } = req.body;
+
+    if (!name || !email || !date || !slot) {
+      return res.status(400).json({ message: "All fields required ❌" });
+    }
+
+    const newBooking = new Booking({ name, email, date, slot });
+    await newBooking.save();
+
+    res.json({
+      message: "Booking successful ✅",
+      booking: newBooking,
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error ❌" });
+  }
+});
