@@ -78,13 +78,13 @@ const Navbar = () => {
             </div>
           ) : (
             <>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => navigate("/login")}
-              >
-                Log In
-              </Button>
+             <Button
+  size="sm"
+  className="bg-orange-500 text-white hover:bg-orange-600"
+  onClick={() => navigate("/login")}
+>
+  Log In
+</Button>
 
               <Button
                 size="sm"
