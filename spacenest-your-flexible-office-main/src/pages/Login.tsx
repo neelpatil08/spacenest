@@ -22,7 +22,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/login", {
+      // ✅ FIXED BACKEND URL
+      const res = await fetch("https://spacenest-backend.onrender.com/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,14 +35,17 @@ const Login = () => {
       console.log("Response:", data);
 
       if (res.ok) {
-        // ✅ FIX: store only user
+        // ✅ Store user
         localStorage.setItem("user", JSON.stringify(data.user));
+
+        // ✅ Update navbar instantly
+        window.dispatchEvent(new Event("userChanged"));
 
         alert("Login successful ✅");
 
         navigate("/home");
       } else {
-        alert(data.message);
+        alert(data.message || "Login failed ❌");
       }
 
     } catch (error) {
@@ -72,6 +76,7 @@ const Login = () => {
               name="email"
               placeholder="Email"
               onChange={handleChange}
+              required
               className="w-full border p-3 pl-10 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
             <span className="absolute left-3 top-3 text-gray-400">📧</span>
@@ -84,6 +89,7 @@ const Login = () => {
               name="password"
               placeholder="Password"
               onChange={handleChange}
+              required
               className="w-full border p-3 pl-10 pr-10 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
             <span className="absolute left-3 top-3 text-gray-400">🔒</span>

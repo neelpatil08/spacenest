@@ -26,7 +26,8 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/signup", {
+      // ✅ FIXED BACKEND URL
+      const res = await fetch("https://spacenest-backend.onrender.com/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,30 +38,26 @@ const Signup = () => {
       const data = await res.json();
       console.log("Signup Response:", data);
 
-      // ❌ Backend failed
       if (!res.ok) {
         alert(data.message || "Signup failed ❌");
         setLoading(false);
         return;
       }
 
-      // ❌ CRITICAL: backend must send user
       if (!data.user) {
         alert("Backend error: user not returned ❌");
-        console.log("Fix backend response:", data);
         setLoading(false);
         return;
       }
 
-      // ✅ STORE USER
+      // ✅ Store user
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // ✅ NOTIFY NAVBAR
+      // ✅ Notify navbar
       window.dispatchEvent(new Event("userChanged"));
 
       alert("Signup successful ✅");
 
-      // ✅ REDIRECT
       navigate("/home");
 
     } catch (error) {
@@ -143,7 +140,6 @@ const Signup = () => {
 
         </form>
 
-        {/* Footer */}
         <p className="text-center text-sm text-gray-500 mt-6">
           Already have an account?{" "}
           <span
