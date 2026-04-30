@@ -7,9 +7,9 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
-  const [darkMode, setDarkMode] = useState(false); // ✅ NEW
+  const [darkMode, setDarkMode] = useState(false);
 
-  // 🔥 USER LOAD
+  // USER LOAD
   useEffect(() => {
     const loadUser = () => {
       const storedUser = localStorage.getItem("user");
@@ -34,7 +34,7 @@ const Navbar = () => {
     };
   }, []);
 
-  // 🌙 DARK MODE INIT
+  // DARK MODE INIT
   useEffect(() => {
     const theme = localStorage.getItem("theme");
 
@@ -44,7 +44,6 @@ const Navbar = () => {
     }
   }, []);
 
-  // 🌙 TOGGLE FUNCTION
   const toggleTheme = () => {
     if (darkMode) {
       document.documentElement.classList.remove("dark");
@@ -60,129 +59,94 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
-
     window.dispatchEvent(new Event("userChanged"));
     navigate("/login");
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-md border-b border-border/40">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-orange-400/90 via-orange-500/80 to-orange-400/90 backdrop-blur-md shadow-md">
       <div className="container flex items-center justify-between h-16">
 
         {/* Logo */}
-        <Link to="/" className="font-display text-2xl font-bold">
-          Space<span className="text-primary">Nest</span>
+        <Link
+          to="/"
+          className="font-display text-2xl font-bold text-white"
+        >
+          Space<span className="text-white">Nest</span>
         </Link>
 
-        {/* Desktop Nav */}
+        {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
 
-          <Link to="/spaces" className="text-sm">Browse Spaces</Link>
-          <Link to="/" className="text-sm">How It Works</Link>
-          <Link to="/" className="text-sm">Pricing</Link>
+          <Link
+            className="text-sm text-white/90 hover:text-white transition"
+            to="/spaces"
+          >
+            Browse Spaces
+          </Link>
 
-          {/* 🌙 DARK MODE BUTTON */}
+          <Link
+            className="text-sm text-white/90 hover:text-white transition"
+            to="/"
+          >
+            How It Works
+          </Link>
+
+          <Link
+            className="text-sm text-white/90 hover:text-white transition"
+            to="/"
+          >
+            Pricing
+          </Link>
+
+          {/* Dark Mode Toggle */}
           <button
             onClick={toggleTheme}
-            className="px-3 py-1 rounded-lg bg-gray-200 dark:bg-gray-700"
+            className="px-3 py-1 rounded-lg bg-white/20 text-white"
           >
             {darkMode ? "☀️" : "🌙"}
           </button>
 
-          {/* 🔥 AUTH UI */}
+          {/* Auth */}
           {user ? (
             <div className="flex items-center gap-4">
-              <span className="text-orange-500 font-medium">
+              <span className="text-white font-medium">
                 👋 {user.name}
               </span>
 
-              <Button size="sm" variant="outline" onClick={handleLogout}>
+              <Button size="sm" variant="secondary" onClick={handleLogout}>
                 Logout
               </Button>
             </div>
           ) : (
             <>
-              <Button size="sm" variant="outline" onClick={() => navigate("/login")}>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => navigate("/login")}
+              >
                 Log In
               </Button>
 
-              <Button size="sm" onClick={() => navigate("/signup")}>
+              <Button
+                size="sm"
+                className="bg-white text-orange-500 hover:bg-gray-100"
+                onClick={() => navigate("/signup")}
+              >
                 Sign Up
               </Button>
             </>
           )}
-
         </div>
 
         {/* Mobile Toggle */}
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden">
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden text-white"
+        >
           {mobileOpen ? <X /> : <Menu />}
         </button>
       </div>
-
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="md:hidden px-6 pb-6 space-y-4">
-
-          <Link to="/spaces" onClick={() => setMobileOpen(false)}>
-            Browse Spaces
-          </Link>
-
-          {/* 🌙 DARK MODE MOBILE */}
-          <button
-            onClick={toggleTheme}
-            className="w-full px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700"
-          >
-            {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-          </button>
-
-          <div className="flex gap-3 pt-2">
-
-            {user ? (
-              <>
-                <span className="flex-1 text-orange-500">
-                  👋 {user.name}
-                </span>
-
-                <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => {
-                    handleLogout();
-                    setMobileOpen(false);
-                  }}
-                >
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => {
-                    navigate("/login");
-                    setMobileOpen(false);
-                  }}
-                >
-                  Log In
-                </Button>
-
-                <Button
-                  className="flex-1"
-                  onClick={() => {
-                    navigate("/signup");
-                    setMobileOpen(false);
-                  }}
-                >
-                  Sign Up
-                </Button>
-              </>
-            )}
-
-          </div>
-        </div>
-      )}
     </nav>
   );
 };

@@ -13,19 +13,17 @@ const Index = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
 
-    // ✅ SAFE CHECK (VERY IMPORTANT)
     if (storedUser && storedUser !== "undefined") {
       try {
         setUser(JSON.parse(storedUser));
-      } catch (err) {
-        console.log("Invalid user data, clearing...");
+      } catch {
         localStorage.removeItem("user");
       }
     }
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pt-16 bg-white dark:bg-black">
       <Navbar />
 
       <main>
