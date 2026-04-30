@@ -7,9 +7,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
-  const [darkMode, setDarkMode] = useState(false);
 
-  // USER LOAD
   useEffect(() => {
     const loadUser = () => {
       const storedUser = localStorage.getItem("user");
@@ -34,28 +32,6 @@ const Navbar = () => {
     };
   }, []);
 
-  // DARK MODE INIT
-  useEffect(() => {
-    const theme = localStorage.getItem("theme");
-
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-      setDarkMode(true);
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    if (darkMode) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    }
-
-    setDarkMode(!darkMode);
-  };
-
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
@@ -64,57 +40,39 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-orange-400/90 via-orange-500/80 to-orange-400/90 backdrop-blur-md shadow-md">
+    <nav className="fixed top-0 left-0 right-0 z-50 
+      bg-white/40 backdrop-blur-xl 
+      border-b border-orange-200/40 shadow-sm">
+
       <div className="container flex items-center justify-between h-16">
 
         {/* Logo */}
-        <Link
-          to="/"
-          className="font-display text-2xl font-bold text-white"
-        >
-          Space<span className="text-white">Nest</span>
+        <Link to="/" className="font-display text-2xl font-bold text-gray-800">
+          Space<span className="text-orange-500">Nest</span>
         </Link>
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
 
-          <Link
-            className="text-sm text-white/90 hover:text-white transition"
-            to="/spaces"
-          >
+          <Link className="text-sm text-gray-700 hover:text-orange-500" to="/spaces">
             Browse Spaces
           </Link>
 
-          <Link
-            className="text-sm text-white/90 hover:text-white transition"
-            to="/"
-          >
+          <Link className="text-sm text-gray-700 hover:text-orange-500" to="/">
             How It Works
           </Link>
 
-          <Link
-            className="text-sm text-white/90 hover:text-white transition"
-            to="/"
-          >
+          <Link className="text-sm text-gray-700 hover:text-orange-500" to="/">
             Pricing
           </Link>
 
-          {/* Dark Mode Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="px-3 py-1 rounded-lg bg-white/20 text-white"
-          >
-            {darkMode ? "☀️" : "🌙"}
-          </button>
-
-          {/* Auth */}
           {user ? (
             <div className="flex items-center gap-4">
-              <span className="text-white font-medium">
+              <span className="text-orange-500 font-medium">
                 👋 {user.name}
               </span>
 
-              <Button size="sm" variant="secondary" onClick={handleLogout}>
+              <Button size="sm" variant="outline" onClick={handleLogout}>
                 Logout
               </Button>
             </div>
@@ -122,7 +80,7 @@ const Navbar = () => {
             <>
               <Button
                 size="sm"
-                variant="secondary"
+                variant="outline"
                 onClick={() => navigate("/login")}
               >
                 Log In
@@ -130,19 +88,20 @@ const Navbar = () => {
 
               <Button
                 size="sm"
-                className="bg-white text-orange-500 hover:bg-gray-100"
+                className="bg-green-500 text-white hover:bg-green-600"
                 onClick={() => navigate("/signup")}
               >
                 Sign Up
               </Button>
             </>
           )}
+
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Mobile */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-white"
+          className="md:hidden text-gray-800"
         >
           {mobileOpen ? <X /> : <Menu />}
         </button>

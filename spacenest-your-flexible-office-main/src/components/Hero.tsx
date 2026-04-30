@@ -6,42 +6,33 @@ import heroImg from "@/assets/hero-coworking.jpg";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center">
+    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
 
-      {/* Background Image */}
-      <img
-        src={heroImg}
-        alt="workspace"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+      {/* Background */}
+      <div className="absolute inset-0">
+        <img
+          src={heroImg}
+          alt="workspace"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
 
-      {/* FIXED OVERLAY (KEY FIX) */}
-      <div className="absolute inset-0 bg-black/60"></div>
-
-      {/* Content */}
-      <div className="relative z-10 container py-20">
+      <div className="container relative z-10 py-20">
         <div className="max-w-2xl text-white">
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-orange-400 font-semibold text-sm uppercase mb-4"
-          >
+          <motion.p className="text-orange-300 font-semibold text-sm uppercase mb-4">
             Flexible Workspaces for Everyone
           </motion.p>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-6xl font-bold leading-tight mb-6"
-          >
+          <motion.h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
             Find Your Perfect
             <br />
             <span className="text-orange-400">Desk Space</span>
           </motion.h1>
 
-          <motion.p className="text-white/80 text-lg mb-8">
-            Book affordable desks, private offices, and meeting rooms.
+          <motion.p className="text-white/80 text-lg mb-10">
+            Book desks, offices, and meeting rooms easily.
           </motion.p>
 
           {/* Search */}
@@ -50,12 +41,12 @@ const Hero = () => {
               <MapPin className="h-5 w-5 text-gray-500" />
               <input
                 type="text"
-                placeholder="City, neighborhood..."
+                placeholder="City, location..."
                 className="w-full outline-none text-black"
               />
             </div>
 
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+            <Button className="bg-orange-500 text-white">
               <Search className="h-4 w-4 mr-2" />
               Search
             </Button>
